@@ -80,6 +80,7 @@ void ofxSurfingDataRemover::setup()
 
 	// params App settings
 	params_AppSettings.setName("AppSettings");
+	//params_AppSettings.add(bInitialize);
 	params_AppSettings.add(bClear);
 	params_AppSettings.add(bRun);
 	params_AppSettings.add(fileList);
@@ -121,19 +122,19 @@ void ofxSurfingDataRemover::setup()
 		ofLogError(__FUNCTION__) << "ofxGui Theme '" << _path << "' Not found!";
 	}
 
-	ofxGuiSetDefaultHeight(20);
+	ofxGuiSetDefaultHeight(30);
 	ofxGuiSetBorderColor(32);
 	ofxGuiSetFillColor(ofColor(48));
 	ofxGuiSetTextColor(ofColor::white);
 	ofxGuiSetHeaderColor(ofColor(24));
 	ofxGuiSetBackgroundColor(ofColor::black);
 
-	//setup gui
+	// setup gui
 	gui_Control.setup("ofxSurfingDataRemover");
 	gui_Control.add(params);//add control (internal) and addon params
 	gui_Control.setPosition(ofGetWidth() - 210, 20);
 
-	//collapse groups
+	// collapse groups
 	auto &g0 = gui_Control.getGroup("ALL PARAMS");//1st level
 	auto &g2 = g0.getGroup("ADDON");//2nd level
 	auto &g3 = g0.getGroup("INTERNAL");//2nd level
@@ -179,7 +180,7 @@ void ofxSurfingDataRemover::update(ofEventArgs & args) {
 	if (ENABLE_AutoSave && ofGetElapsedTimeMillis() - timerLast_Autosave > timeToAutosave)
 	{
 		DISABLE_Callbacks = true;
-		//get gui position before save
+		// get gui position before save
 		Gui_Position = glm::vec2(gui_Control.getPosition());
 		ofxSurfingHelpers::saveGroup(params_Control, path_GLOBAL + path_Params_Control);
 		DISABLE_Callbacks = false;
@@ -455,7 +456,14 @@ void ofxSurfingDataRemover::Changed_params(ofAbstractParameter &e)
 	else if (name == bRun.getName() && bRun.get())
 	{
 		bRun = false;
+
+		doRemoveDataFiles();
 	}
+	//else if (name == bInitialize.getName() && bInitialize.get())
+	//{
+	//	bInitialize = false;
+	//	fileList = "";
+	//}
 }
 
 // addon engine params
@@ -493,7 +501,6 @@ void ofxSurfingDataRemover::Changed_params_Control(ofAbstractParameter &e)
 		&& name != "exclude")
 	{
 		ofLogNotice(__FUNCTION__) << name << " : " << e;
-
 	}
 
 	if (0) {}
@@ -564,6 +571,10 @@ void ofxSurfingDataRemover::dragEvent(ofDragInfo info) {
 	if (info.files.size() > 0) {
 		dragPt = info.position;
 
+		if (fileList.get() == "") {
+			msg = "";
+		}
+
 		//draggedImages.assign(info.files.size(), ofImage());
 		for (unsigned int k = 0; k < info.files.size(); k++)
 		{
@@ -578,6 +589,31 @@ void ofxSurfingDataRemover::dragEvent(ofDragInfo info) {
 //--------------------------------------------------------------
 void ofxSurfingDataRemover::drawInfo() {
 
-	ofDrawBitmapStringHighlight(fileList, 20, 30);
-	ofDrawBitmapStringHighlight("Drag files to queue paths...", ofGetWidth() - 300, ofGetHeight() - 30);
+	ofDrawBitmapStringHighlight(fileList, 20, 25);
+	ofDrawBitmapStringHighlight("Drag files to queue paths...", ofGetWidth() - 300, ofGetHeight() - 25);
+	ofDrawBitmapStringHighlight(msg, ofGetWidth() - 300, 25);
+}
+
+//--------------------------------------------------------------
+void ofxSurfingDataRemover::doRemoveDataFiles() {
+
+	auto ss = ofSplitString(fileList, "\n");
+
+	for (int i = 0; i < ss.size(); i++)
+	{
+		string filepath = ss[i];
+		ofLogNotice(__FUNCTION__) << "#" << i << " : " << filepath;
+		ofFile::removeFile(filepath, true);
+	}
+
+	msg = "Removed files Done";
+	//fileList = "";
+
+	//// remove all the settings folder
+	//const filesystem::path path = path_Global;
+	//ofDirectory::removeDirectory(path, true, true);
+
+	//// remove ini file
+	//const filesystem::path file = ofToDataPath("../imgui.ini");
+	//ofFile::removeFile(file, true);
 }

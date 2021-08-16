@@ -2,10 +2,10 @@
     "INTERNAL": {
         "ACTIVE": "0",
         "APP_MODE": "0",
-        "AUTO_SAVE": "1",
+        "AUTO_SAVE": "0",
         "DEBUG": "1",
         "GUI": "1",
-        "GUI_POSITION": "814, 123",
+        "GUI_POSITION": "734, 113",
         "HELP": "0",
         "KEYS": "1"
     }

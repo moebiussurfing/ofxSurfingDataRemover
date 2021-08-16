@@ -3,10 +3,21 @@
 
 #include "ofMain.h"
 
-//we can handle many app modes to change behaviour
+/*
+
+TODO:
+
++	split settings from all the addons stuff
++	recursive folders content
++	
+
+*/
+
+
+// we can handle many app modes to change behaviour
 #define NUM_MODES_APP 2
 
-//dependencies
+// dependencies
 #include "ofxGui.h"
 #include "ofxSurfingHelpers.h"
 
@@ -17,15 +28,15 @@ public:
 
 #pragma mark - ADDON ENGINE
 
-	//all params grouped
+	// all params grouped
 	ofParameterGroup params;
 
-	//addon variables
+	// addon variables
 	ofParameterGroup params_Addon;;
 	ofParameter<bool> Addon_Active;
 	ofParameter<float> Addon_Float;
 
-	//addon methods
+	// addon methods
 
 	//----
 
@@ -135,4 +146,9 @@ public:
 	ofParameter<string> fileList{ "fileList", "" };
 	ofParameter<bool> bClear{ "Clear", false };
 	ofParameter<bool> bRun{ "Run", false };
+	ofParameter<bool> bInitialize{ "Initialize", false };
+
+	void doRemoveDataFiles();
+
+	string msg= "";
 };
