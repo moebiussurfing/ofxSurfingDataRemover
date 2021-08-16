@@ -7,9 +7,11 @@
 
 TODO:
 
-+	split settings from all the addons stuff
++	split settings from all the add-ons stuff
 +	recursive folders content
-+	
++	show/hide gui
++	expose toggle trigger for external gui
++	clean public vars
 
 */
 
