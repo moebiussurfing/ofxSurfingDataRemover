@@ -148,7 +148,41 @@ void ofxSurfingDataRemover::setup()
 
 	//--
 
+	// button
+	font.loadFont(OF_TTF_SANS, 20, true, true, true);
 
+	int x, y, w, h, pad;
+	pad = 10;
+	h = 70;
+	w = ofGetWidth() - 2 * pad;
+	y = ofGetHeight() - h - pad;
+	x = pad;
+
+	butRemove.setup("RUN CLEANER!", x, y, w, h);
+	butRemove.setFont(&font);
+	butRemove.setEnabled(true);
+	butRemove.setPressedColor(255);
+	butRemove.setActiveColor(255);
+	butRemove.setHoverColor(128);
+	butRemove.setStringColor(255);
+	butRemove.setBackgroundColor(0);
+	butRemove.setAutoMouse(true);
+	butRemove.setStringColor(255);
+
+	y -= h + 1 * pad;
+	butClear.setup("CLEAR LIST", x, y, w, h);
+	butClear.setFont(&font);
+	butClear.setEnabled(true);
+	butClear.setPressedColor(255);
+	butClear.setActiveColor(255);
+	butClear.setHoverColor(128);
+	butClear.setStringColor(255);
+	butClear.setBackgroundColor(0);
+	butClear.setAutoMouse(true);
+	butClear.setStringColor(255);
+
+	ofAddListener(butRemove.clickEvent, this, &ofxSurfingDataRemover::onButRemove);
+	ofAddListener(butClear.clickEvent, this, &ofxSurfingDataRemover::onButClear);
 
 	//--
 
@@ -266,48 +300,27 @@ void ofxSurfingDataRemover::windowResized(int w, int h)
 	screenW = w;
 	screenH = h;
 
-	//-
-
 	// user gui deopending on window dimensions
 	//gui_Control.setPosition(screenW * 0.5 - 200, screenH - 200);
 
-	//if (ofGetFrameNum() == 0)
-	{
-		// button
-		font.loadFont(OF_TTF_SANS, 20, true, true, true);
-		int x, y, w, h;
-		int pad = 10;
-		h = 70;
-		w = ofGetWidth() - 2 * pad;
-		y = ofGetHeight() - h - pad;
-		x = pad;
+	//-
 
-		butRemove.setup("RUN CLEANER!", x, y, w, h);
-		butRemove.setFont(&font);
-		butRemove.setEnabled(true);
-		butRemove.setPressedColor(255);
-		butRemove.setActiveColor(255);
-		butRemove.setHoverColor(128);
-		butRemove.setStringColor(255);
-		butRemove.setBackgroundColor(0);
-		butRemove.setAutoMouse(true);
-		butRemove.setStringColor(255);
+	// button
+	int x, y, ww, hh, pad;
+	pad = 10;
+	hh = 70;
+	ww = ofGetWidth() - 2 * pad;
+	y = ofGetHeight() - hh - pad;
+	x = pad;
 
-		y -= h + 1 * pad;
-		butClear.setup("CLEAR LIST", x, y, w, h);
-		butClear.setFont(&font);
-		butClear.setEnabled(true);
-		butClear.setPressedColor(255);
-		butClear.setActiveColor(255);
-		butClear.setHoverColor(128);
-		butClear.setStringColor(255);
-		butClear.setBackgroundColor(0);
-		butClear.setAutoMouse(true);
-		butClear.setStringColor(255);
+	//butRemove.setPosition(x, y);
+	//butRemove.setSize(w, h);
+	butRemove.setup("RUN CLEANER!", x, y, ww, hh);
 
-		ofAddListener(butRemove.clickEvent, this, &ofxSurfingDataRemover::onButRemove);
-		ofAddListener(butClear.clickEvent, this, &ofxSurfingDataRemover::onButClear);
-	}
+	y -= hh + 1 * pad;
+	//butClear.setPosition(x, y);
+	//butClear.setSize(w, h);
+	butClear.setup("CLEAR LIST", x, y, ww, hh);
 }
 
 // keys
@@ -653,7 +666,7 @@ void ofxSurfingDataRemover::dragEvent(ofDragInfo info) {
 
 //--------------------------------------------------------------
 void ofxSurfingDataRemover::drawInfo() {
-	int x, y, w, h;
+	int x, y, w, h, pad;
 	x = 20;
 	y = 25;
 	string s = "LIST";
@@ -666,16 +679,19 @@ void ofxSurfingDataRemover::drawInfo() {
 	y = ofGetHeight() / 2;
 	ofDrawBitmapStringHighlight("FOLDERS:" + ofToString((foldersList.get() != "") ? "\n\n" : "") + foldersList.get(), x, y);
 
-	w = 270;
-	x = ofGetWidth() - w;
-	y = ofGetHeight() / 2;
-	y -= 30;
-	if (msg != "") ofDrawBitmapStringHighlight(msg, x, y);
-
 	w = 340;
 	x = ofGetWidth() - w;
 	y = 25;
 	ofDrawBitmapStringHighlight("Drag files or folders to queue paths...", x, y);
+
+	w = 270;
+	x = ofGetWidth() - w;
+	h = 70;
+	pad = 10;
+	y = ofGetHeight() - 2 * h - 4 * pad;
+	//y = ofGetHeight() / 2;
+	//y -= 30;
+	if (msg != "") ofDrawBitmapStringHighlight(msg, x, y);
 }
 
 //--------------------------------------------------------------

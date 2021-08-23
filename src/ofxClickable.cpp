@@ -321,6 +321,12 @@ void ofxClickable::setPosition(int x, int y) {
 }
 
 //--------------------------------------------------------------
+void ofxClickable::setSize(int w, int h) {
+    rect.setWidth(w);
+    rect.setHeight(h);
+}
+
+//--------------------------------------------------------------
 void ofxClickable::setBackgroundGradient(int bGradientAmt) {
     this->bGradientAmt = bGradientAmt;
     updateFbo();

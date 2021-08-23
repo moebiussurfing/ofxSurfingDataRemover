@@ -4,7 +4,7 @@
 
 ## Overview
 **openFrameworks** add-on to clean your ```OF_APP/data/``` files.  
-Queue a list of files and folders to batch remove during your coding process.
+Queue a list of files and folders to batch remove periodically during your coding process.
 
 ## Screenshot
 ![image](docs/readme_images/Capture1.PNG?raw=true "image")
@@ -13,11 +13,15 @@ Queue a list of files and folders to batch remove during your coding process.
 
 ## Usage
 - Drag the files and folders that you want to remove from your hard drive or ```OF_APP/data/``` folder.
-- Run the removing process.
+- Run the removing process for the list.
 - Clear list to create a new project.
+- The list remains next time the app is opened.
 
 ## Dependencies
 * [ofxSurfingHelpers](https://github.com/moebiussurfing/ofxSurfingHelpers)  
+
+Already included into _/src_. No need to add manually on **PROJECT GENERATOR**.  
+* [ofxClickable](https://github.com/genekogan/ofxClickable)  
 
 ## Tested Systems
 * **Windows 10** / **VS 2017** / **OF ~0.11**

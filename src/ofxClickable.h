@@ -52,6 +52,7 @@ public:
     virtual int getCornerRounded() {return roundCorners;}
 
     virtual void setPosition(int x, int y);
+    virtual void setSize(int w, int h);
     virtual void draw();
     virtual void draw(ofEventArgs& e);
     
