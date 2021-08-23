@@ -8,8 +8,6 @@
 TODO:
 
 +	split settings from all the add-ons stuff
-+	recursive folders content
-+	show/hide gui
 +	expose toggle trigger for external gui
 +	clean public vars
 
@@ -22,6 +20,7 @@ TODO:
 // dependencies
 #include "ofxGui.h"
 #include "ofxSurfingHelpers.h"
+#include "ofxClickable.h"
 
 class ofxSurfingDataRemover
 {
@@ -136,21 +135,57 @@ private:
 
 	//-
 
+	//ofRectangle rectButton;
+	ofxClickable butRemove;
+	ofxClickable butClear;
+	ofTrueTypeFont font;
+
 public:
 
 	void dragEvent(ofDragInfo dragInfo);
+
+private:
+
 	void drawInfo();
 
 	glm::vec2 dragPt;
 	vector <ofImage> draggedImages;
-	
+
 	ofParameterGroup params_AppSettings;
-	ofParameter<string> fileList{ "fileList", "" };
+	ofParameter<string> filesList{ "filesList", "" };
+	ofParameter<string> foldersList{ "foldersList", "" };
 	ofParameter<bool> bClear{ "Clear", false };
 	ofParameter<bool> bRun{ "Run", false };
 	ofParameter<bool> bInitialize{ "Initialize", false };
 
 	void doRemoveDataFiles();
 
-	string msg= "";
+	string msg = "";
+
+	//--------------------------------------------------------------
+	void onButClear() {
+		doClear();
+	};
+
+	//--------------------------------------------------------------
+	void onButRemove() {
+		doRun();
+	};
+
+public:
+
+	//--------------------------------------------------------------
+	void doClear() {
+		bClear = false;
+
+		filesList = "";
+		foldersList = "";
+	};
+
+	//--------------------------------------------------------------
+	void doRun() {
+		bRun = false;
+
+		doRemoveDataFiles();
+	};
 };

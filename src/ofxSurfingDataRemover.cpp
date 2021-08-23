@@ -38,7 +38,7 @@ void ofxSurfingDataRemover::setup()
 	params_Addon.setName("ADDON");
 	params_Addon.add(Addon_Active);
 	params_Addon.add(Addon_Float);
-	params_Addon.add(fileList);
+	params_Addon.add(filesList);
 
 	// callback
 	ofAddListener(params_Addon.parameterChangedE(), this, &ofxSurfingDataRemover::Changed_params_Addon);
@@ -57,7 +57,8 @@ void ofxSurfingDataRemover::setup()
 	MODE_App_Name.setSerializable(false);
 	ENABLE_Debug.set("DEBUG", true);
 	ENABLE_AutoSave.set("AUTO SAVE", true);
-	SHOW_Gui.set("GUI", true);
+	SHOW_Gui.set("GUI", false);
+	SHOW_Gui.setSerializable(false);
 	Gui_Position.set("GUI POSITION",
 		glm::vec2(screenW * 0.5, screenH * 0.5),
 		glm::vec2(0, 0),
@@ -83,7 +84,8 @@ void ofxSurfingDataRemover::setup()
 	//params_AppSettings.add(bInitialize);
 	params_AppSettings.add(bClear);
 	params_AppSettings.add(bRun);
-	params_AppSettings.add(fileList);
+	params_AppSettings.add(filesList);
+	params_AppSettings.add(foldersList);
 
 	bClear.setSerializable(false);
 	bRun.setSerializable(false);
@@ -146,16 +148,20 @@ void ofxSurfingDataRemover::setup()
 
 	//--
 
+
+
+	//--
+
 	// startup
 	startup();
 
-	//-
+	//--
 }
 
 //--------------------------------------------------------------
 void ofxSurfingDataRemover::startup()
 {
-	ofLogNotice(__FUNCTION__) << "STARTUP INIT";
+	ofLogNotice(__FUNCTION__);
 
 	DISABLE_Callbacks = false;
 
@@ -205,6 +211,18 @@ void ofxSurfingDataRemover::draw(ofEventArgs & args)
 	}
 
 	drawInfo();
+
+
+	butClear.draw();
+	butRemove.draw();
+	//ofPushStyle();
+	//ofColor()
+	//ofFill();
+	//ofDrawRectangle(rectButton);
+	//bool b = false;
+	//if (ofGetMousePressed()) {
+	//	b = ofxMyUtil::Event::RectButton(rectButton, ofGetMouseX(), ofGetMouseY());
+	//}
 }
 
 //--------------------------------------------------------------
@@ -252,6 +270,44 @@ void ofxSurfingDataRemover::windowResized(int w, int h)
 
 	// user gui deopending on window dimensions
 	//gui_Control.setPosition(screenW * 0.5 - 200, screenH - 200);
+
+	//if (ofGetFrameNum() == 0)
+	{
+		// button
+		font.loadFont(OF_TTF_SANS, 20, true, true, true);
+		int x, y, w, h;
+		int pad = 10;
+		h = 70;
+		w = ofGetWidth() - 2 * pad;
+		y = ofGetHeight() - h - pad;
+		x = pad;
+
+		butRemove.setup("RUN CLEANER!", x, y, w, h);
+		butRemove.setFont(&font);
+		butRemove.setEnabled(true);
+		butRemove.setPressedColor(255);
+		butRemove.setActiveColor(255);
+		butRemove.setHoverColor(128);
+		butRemove.setStringColor(255);
+		butRemove.setBackgroundColor(0);
+		butRemove.setAutoMouse(true);
+		butRemove.setStringColor(255);
+
+		y -= h + 1 * pad;
+		butClear.setup("CLEAR LIST", x, y, w, h);
+		butClear.setFont(&font);
+		butClear.setEnabled(true);
+		butClear.setPressedColor(255);
+		butClear.setActiveColor(255);
+		butClear.setHoverColor(128);
+		butClear.setStringColor(255);
+		butClear.setBackgroundColor(0);
+		butClear.setAutoMouse(true);
+		butClear.setStringColor(255);
+
+		ofAddListener(butRemove.clickEvent, this, &ofxSurfingDataRemover::onButRemove);
+		ofAddListener(butClear.clickEvent, this, &ofxSurfingDataRemover::onButClear);
+	}
 }
 
 // keys
@@ -447,22 +503,21 @@ void ofxSurfingDataRemover::Changed_params(ofAbstractParameter &e)
 
 	if (0) {}
 
-	//filter params
+	// filter params
+
 	else if (name == bClear.getName() && bClear.get())
 	{
-		bClear = false;
-		fileList = "";
+		doClear();
 	}
 	else if (name == bRun.getName() && bRun.get())
 	{
-		bRun = false;
-
-		doRemoveDataFiles();
+		doRun();
 	}
+
 	//else if (name == bInitialize.getName() && bInitialize.get())
 	//{
 	//	bInitialize = false;
-	//	fileList = "";
+	//	filesList = "";
 	//}
 }
 
@@ -479,13 +534,12 @@ void ofxSurfingDataRemover::Changed_params_Addon(ofAbstractParameter &e)
 		&& name != "exclude")
 	{
 		ofLogNotice(__FUNCTION__) << name << " : " << e;
-
 	}
 
-	// params
-	if (name == "")
-	{
-	}
+	//// params
+	//if (name == "")
+	//{
+	//}
 }
 
 //addon control (internal) params
@@ -505,11 +559,10 @@ void ofxSurfingDataRemover::Changed_params_Control(ofAbstractParameter &e)
 
 	if (0) {}
 
-	//control params
-	else if (name == "")
-	{
-	}
-
+	////control params
+	//else if (name == "")
+	//{
+	//}
 	//else if (name == "APP MODE")
 	//{
 	//	switch (MODE_App)
@@ -527,26 +580,26 @@ void ofxSurfingDataRemover::Changed_params_Control(ofAbstractParameter &e)
 	//		break;
 	//	}
 	//}
+	//else if (name == "ACTIVE")
+	//{
+	//	setActive(MODE_Active);
+	//}
+	//else if (name == "GUI")
+	//{
+	//}
+	//else if (name == "HELP")
+	//{
+	//}
+	//else if (name == "APP MODE")
+	//{
+	//}
+	//else if (name == "DEBUG")
+	//{
+	//}
 
 	else if (name == "GUI POSITION")
 	{
 		gui_Control.setPosition(Gui_Position.get().x, Gui_Position.get().y);
-	}
-	else if (name == "ACTIVE")
-	{
-		setActive(MODE_Active);
-	}
-	else if (name == "GUI")
-	{
-	}
-	else if (name == "HELP")
-	{
-	}
-	else if (name == "APP MODE")
-	{
-	}
-	else if (name == "DEBUG")
-	{
 	}
 }
 
@@ -571,43 +624,89 @@ void ofxSurfingDataRemover::dragEvent(ofDragInfo info) {
 	if (info.files.size() > 0) {
 		dragPt = info.position;
 
-		if (fileList.get() == "") {
-			msg = "";
-		}
+		////clear info
+		//if (filesList.get() == "") {
+		//	msg = "";
+		//}
 
 		//draggedImages.assign(info.files.size(), ofImage());
 		for (unsigned int k = 0; k < info.files.size(); k++)
 		{
 			string name = info.files[k];
+
+			auto ss = ofSplitString(name, ".");
+			bool bIsAFolder = (ss.size() == 1);
+
 			ofLogNotice(__FUNCTION__) << k << " : " << name;
-			fileList += name;
-			fileList += "\n";
+
+			if (!bIsAFolder) {
+				filesList += name;
+				filesList += "\n";
+			}
+			else {
+				foldersList += name;
+				foldersList += "\n";
+			}
 		}
 	}
 }
 
 //--------------------------------------------------------------
 void ofxSurfingDataRemover::drawInfo() {
+	int x, y, w, h;
+	x = 20;
+	y = 25;
+	string s = "LIST";
+	ofDrawBitmapStringHighlight(s, x, y);
 
-	ofDrawBitmapStringHighlight(fileList, 20, 25);
-	ofDrawBitmapStringHighlight("Drag files to queue paths...", ofGetWidth() - 300, ofGetHeight() - 25);
-	ofDrawBitmapStringHighlight(msg, ofGetWidth() - 300, 25);
+	y += 30;
+	string ss = "FILES:" + ofToString((filesList.get() != "") ? "\n\n" : "") + filesList.get();
+	ofDrawBitmapStringHighlight(ss, x, y);
+
+	y = ofGetHeight() / 2;
+	ofDrawBitmapStringHighlight("FOLDERS:" + ofToString((foldersList.get() != "") ? "\n\n" : "") + foldersList.get(), x, y);
+
+	w = 270;
+	x = ofGetWidth() - w;
+	y = ofGetHeight() / 2;
+	y -= 30;
+	if (msg != "") ofDrawBitmapStringHighlight(msg, x, y);
+
+	w = 340;
+	x = ofGetWidth() - w;
+	y = 25;
+	ofDrawBitmapStringHighlight("Drag files or folders to queue paths...", x, y);
 }
 
 //--------------------------------------------------------------
 void ofxSurfingDataRemover::doRemoveDataFiles() {
 
-	auto ss = ofSplitString(fileList, "\n");
+	bool bRelativeToData = false;
 
-	for (int i = 0; i < ss.size(); i++)
+	ofLogNotice(__FUNCTION__) << "Removing files...";
+	auto ssfiles = ofSplitString(filesList, "\n");
+	for (int i = 0; i < ssfiles.size(); i++)
 	{
-		string filepath = ss[i];
+		string filepath = ssfiles[i];
+		if (filepath == "") continue;//skip
+
 		ofLogNotice(__FUNCTION__) << "#" << i << " : " << filepath;
-		ofFile::removeFile(filepath, true);
+		ofFile::removeFile(filepath, bRelativeToData);
 	}
 
-	msg = "Removed files Done";
-	//fileList = "";
+	ofLogNotice(__FUNCTION__) << "Removing folders...";
+	auto ssfolders = ofSplitString(foldersList, "\n");
+	for (int i = 0; i < ssfolders.size(); i++)
+	{
+		string folderpath = ssfolders[i];
+		if (folderpath == "") continue;//skip
+
+		ofLogNotice(__FUNCTION__) << "#" << i << " : " << folderpath;
+		ofDirectory::removeDirectory(folderpath, true, bRelativeToData);
+	}
+
+	msg = "Removed files and folders. Done!";
+	//filesList = "";
 
 	//// remove all the settings folder
 	//const filesystem::path path = path_Global;

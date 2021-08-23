@@ -1,5 +1,6 @@
 {
     "AppSettings": {
-        "fileList": "C:\\Users\\moebiussurfing\\Downloads\\cuneo2.PNG\nC:\\Users\\moebiussurfing\\Downloads\\cuneo.PNG\nC:\\Users\\moebiussurfing\\Downloads\\cuneo3.PNG\n"
+        "filesList": "F:\\openFrameworks\\addons\\ofxSurfingAnimators\\examples\\4_PointColored\\bin\\4_PointColored.exe\nF:\\openFrameworks\\addons\\ofxSurfingAnimators\\examples\\4_PointColored\\bin\\4_PointColored.exp\nF:\\openFrameworks\\addons\\ofxSurfingAnimators\\examples\\4_PointColored\\bin\\4_PointColored.lib\nF:\\openFrameworks\\addons\\ofxSurfingAnimators\\examples\\4_PointColored\\bin\\fmodex64.dll\nF:\\openFrameworks\\addons\\ofxSurfingAnimators\\examples\\4_PointColored\\bin\\fmodexL64.dll\nF:\\openFrameworks\\addons\\ofxSurfingAnimators\\examples\\4_PointColored\\bin\\FreeImage.dll\nF:\\openFrameworks\\addons\\ofxSurfingAnimators\\examples\\4_PointColored\\bin\\imgui.ini\n",
+        "foldersList": "F:\\openFrameworks\\addons\\ofxSurfingAnimators\\examples\\4_PointColored\\bin\\data\\FloatAnimator\nF:\\openFrameworks\\addons\\ofxSurfingAnimators\\examples\\4_PointColored\\bin\\data\\ofxSurfingPresets\n"
     }
 }
