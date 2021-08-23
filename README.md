@@ -3,7 +3,7 @@
 ![Stage: beta](https://img.shields.io/badge/-alpha-red)
 
 ## Overview
-**openFrameworks** add-on to clean your ```OF_APP/data/``` files.  
+**openFrameworks** add-on to clean typically your ```OF_APP/data/``` files.  
 Queue a list of files and folders to batch remove periodically during your coding process.
 
 ## Screenshot
