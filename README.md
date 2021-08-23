@@ -3,7 +3,8 @@
 ![Stage: beta](https://img.shields.io/badge/-alpha-red)
 
 ## Overview
-openFrameworks add-on to queue a list of files of OF_APP/data/ to remove and erase during your coding process.
+**openFrameworks** add-on to clean your ```OF_APP/data/``` files.  
+Queue a list of files and folders to batch remove during your coding process.
 
 ## Screenshot
 ![Alt text](docs/screenshot1.JPG?raw=true "MoebiusSurfing")
@@ -11,21 +12,19 @@ openFrameworks add-on to queue a list of files of OF_APP/data/ to remove and era
 ## Features
 
 ## Usage
-- Clear list.
-- Drag files and folders that you want to remove from your hard drive.
-- Run the delete process.
+- Drag the files and folders that you want to remove from your hard drive or ```OF_APP/data/``` folder.
+- Run the removing process.
+- Clear list to create a new project.
 
 ## Dependencies
 * [ofxSurfingHelpers](https://github.com/moebiussurfing/ofxSurfingHelpers)  
 
-## Tested systems
+## Tested Systems
 * **Windows 10** / **VS 2017** / **OF ~0.11**
 
 ## Author
-An addon by **@moebiusSurfing**  
+An add-on by **@moebiusSurfing**  
 *( ManuMolina ) 2021*  
-
-<br/>
 
 ## License
 [**MIT License**](https://github.com/LICENSE)
