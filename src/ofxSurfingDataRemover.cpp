@@ -31,13 +31,15 @@ void ofxSurfingDataRemover::setup()
 
 	//--
 
-	// params control (addon variables)
-	Addon_Active.set("ADDON ACTIVE", true);
-	Addon_Float.set("ADDON float", 0, 0, 1);
+	//// params control (addon variables)
+	//Addon_Active.set("ADDON ACTIVE", true);
+	//Addon_Float.set("ADDON float", 0, 0, 1);
+
 	// group
 	params_Addon.setName("ADDON");
-	params_Addon.add(Addon_Active);
-	params_Addon.add(Addon_Float);
+	//params_Addon.add(Addon_Active);
+	//params_Addon.add(Addon_Float);
+
 	params_Addon.add(filesList);
 
 	// callback
@@ -52,9 +54,9 @@ void ofxSurfingDataRemover::setup()
 	MODE_Active.set("ACTIVE", true);
 	ENABLE_keys.set("KEYS", true);
 	SHOW_Help.set("HELP", false);
-	MODE_App.set("APP MODE", 0, 0, NUM_MODES_APP - 1);
-	MODE_App_Name.set("", "");
-	MODE_App_Name.setSerializable(false);
+	//MODE_App.set("APP MODE", 0, 0, NUM_MODES_APP - 1);
+	//MODE_App_Name.set("", "");
+	//MODE_App_Name.setSerializable(false);
 	ENABLE_Debug.set("DEBUG", true);
 	ENABLE_AutoSave.set("AUTO SAVE", true);
 	SHOW_Gui.set("GUI", false);
@@ -67,8 +69,8 @@ void ofxSurfingDataRemover::setup()
 
 	// params control (internal)
 	params_Control.setName("INTERNAL");
-	params_Control.add(MODE_App);
-	params_Control.add(MODE_App_Name);
+	//params_Control.add(MODE_App);
+	//params_Control.add(MODE_App_Name);
 	params_Control.add(MODE_Active);
 	params_Control.add(ENABLE_keys);
 	params_Control.add(SHOW_Help);
@@ -145,6 +147,10 @@ void ofxSurfingDataRemover::setup()
 	g2.minimize();
 	g3.minimize();
 	g31.minimize();
+
+	//-
+
+	fontBox.loadFont(_path, 9, true, true, true);
 
 	//--
 
@@ -669,29 +675,38 @@ void ofxSurfingDataRemover::drawInfo() {
 	int x, y, w, h, pad;
 	x = 20;
 	y = 25;
-	string s = "LIST";
-	ofDrawBitmapStringHighlight(s, x, y);
 
-	y += 30;
-	string ss = "FILES:" + ofToString((filesList.get() != "") ? "\n\n" : "") + filesList.get();
-	ofDrawBitmapStringHighlight(ss, x, y);
+	string ss = "LIST";
+	//ofDrawBitmapStringHighlight(s, x, y);
+	ofxSurfingHelpers::drawTextBoxed(fontBox, ss, x, y);
+
+	y += 90;
+	ss = "FILES:" + ofToString((filesList.get() != "") ? "\n\n" : "") + filesList.get();
+	//ofDrawBitmapStringHighlight(ss, x, y);
+	ofxSurfingHelpers::drawTextBoxed(fontBox, ss, x, y);
 
 	y = ofGetHeight() / 2;
-	ofDrawBitmapStringHighlight("FOLDERS:" + ofToString((foldersList.get() != "") ? "\n\n" : "") + foldersList.get(), x, y);
+	ss = "FOLDERS:" + ofToString((foldersList.get() != "") ? "\n\n" : "") + foldersList.get();
+	//ofDrawBitmapStringHighlight(ss, x, y);
+	ofxSurfingHelpers::drawTextBoxed(fontBox, ss, x, y);
 
 	w = 340;
 	x = ofGetWidth() - w;
 	y = 25;
-	ofDrawBitmapStringHighlight("Drag files or folders to queue paths...", x, y);
+	ss = "Drag files or folders to queue paths...";
+	//ofDrawBitmapStringHighlight(ss, x, y);
+	ofxSurfingHelpers::drawTextBoxed(fontBox, ss, x, y);
 
 	w = 270;
-	x = ofGetWidth() - w;
+	x = ofGetWidth() - w - 20;
 	h = 70;
 	pad = 10;
-	y = ofGetHeight() - 2 * h - 4 * pad;
-	//y = ofGetHeight() / 2;
-	//y -= 30;
-	if (msg != "") ofDrawBitmapStringHighlight(msg, x, y);
+	y = ofGetHeight() - 2 * h - 4 * pad - 50;
+	ss = msg;
+	if (ss != "") {
+		//ofDrawBitmapStringHighlight(ss, x, y);
+		ofxSurfingHelpers::drawTextBoxed(fontBox, ss, x, y);
+	}
 }
 
 //--------------------------------------------------------------
