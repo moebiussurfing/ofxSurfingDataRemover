@@ -555,3 +555,4 @@ MigrationBackup/
 .ionide/
 example/bin/data/ofxSurfingDataRemover/params_Control.xml
 example/bin/data/ofxSurfingDataRemover/params_AppSettings.xml
+OF_APP_DataRemover/bin/data/ofxSurfingDataRemover/params_AppSettings.xml

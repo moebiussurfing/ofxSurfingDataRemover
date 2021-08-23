@@ -677,24 +677,20 @@ void ofxSurfingDataRemover::drawInfo() {
 	y = 25;
 
 	string ss = "LIST";
-	//ofDrawBitmapStringHighlight(s, x, y);
 	ofxSurfingHelpers::drawTextBoxed(fontBox, ss, x, y);
 
 	y += 90;
-	ss = "FILES:" + ofToString((filesList.get() != "") ? "\n\n" : "") + filesList.get();
-	//ofDrawBitmapStringHighlight(ss, x, y);
-	ofxSurfingHelpers::drawTextBoxed(fontBox, ss, x, y);
+	ss = "FILES:" + ofToString((filesList.get() != "") ? "\n\n" : " NONE") + filesList.get();
 
-	y = ofGetHeight() / 2;
-	ss = "FOLDERS:" + ofToString((foldersList.get() != "") ? "\n\n" : "") + foldersList.get();
-	//ofDrawBitmapStringHighlight(ss, x, y);
+	//y = ofGetHeight() / 2;
+	ss += "\nFOLDERS:" + ofToString((foldersList.get() != "") ? "\n\n" : " NONE") + foldersList.get();
+	
 	ofxSurfingHelpers::drawTextBoxed(fontBox, ss, x, y);
 
 	w = 340;
 	x = ofGetWidth() - w;
 	y = 25;
 	ss = "Drag files or folders to queue paths...";
-	//ofDrawBitmapStringHighlight(ss, x, y);
 	ofxSurfingHelpers::drawTextBoxed(fontBox, ss, x, y);
 
 	w = 270;

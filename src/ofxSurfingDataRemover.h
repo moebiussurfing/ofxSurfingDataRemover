@@ -169,6 +169,8 @@ public:
 
 		filesList = "";
 		foldersList = "";
+
+		msg = "Files and folders list it's empty.";
 	};
 
 	//--------------------------------------------------------------
