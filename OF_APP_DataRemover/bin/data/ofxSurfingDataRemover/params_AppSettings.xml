@@ -1,6 +1,6 @@
 {
     "AppSettings": {
-        "filesList": "",
-        "foldersList": ""
+        "filesList": "F:\\openFrameworks\\addons\\ofxSurfingAnimators\\examples\\2_FloatNoised\\bin\\2_FloatNoised_debug.exe\nF:\\openFrameworks\\addons\\ofxSurfingAnimators\\examples\\2_FloatNoised\\bin\\2_FloatNoised_debug.exp\nF:\\openFrameworks\\addons\\ofxSurfingAnimators\\examples\\2_FloatNoised\\bin\\2_FloatNoised_debug.ilk\nF:\\openFrameworks\\addons\\ofxSurfingAnimators\\examples\\2_FloatNoised\\bin\\2_FloatNoised_debug.lib\nF:\\openFrameworks\\addons\\ofxSurfingAnimators\\examples\\2_FloatNoised\\bin\\2_FloatNoised_debug.pdb\nF:\\openFrameworks\\addons\\ofxSurfingAnimators\\examples\\2_FloatNoised\\bin\\fmodex64.dll\nF:\\openFrameworks\\addons\\ofxSurfingAnimators\\examples\\2_FloatNoised\\bin\\fmodexL64.dll\nF:\\openFrameworks\\addons\\ofxSurfingAnimators\\examples\\2_FloatNoised\\bin\\FreeImage.dll\nF:\\openFrameworks\\addons\\ofxSurfingAnimators\\examples\\2_FloatNoised\\bin\\imgui.ini\n",
+        "foldersList": "F:\\openFrameworks\\addons\\ofxSurfingAnimators\\examples\\2_FloatNoised\\bin\\data\\NoiseAnimator\nF:\\openFrameworks\\addons\\ofxSurfingAnimators\\examples\\2_FloatNoised\\bin\\data\\ofxSurfingPresets\nF:\\openFrameworks\\addons\\ofxSurfingAnimators\\examples\\2_FloatNoised\\bin\\data\\FloatAnimator\n"
     }
 }
