@@ -113,9 +113,13 @@ void ofxSurfingDataRemover::setup()
 	// gui
 
 	// theme
+	
 	string _path = "assets/fonts/";
-	_path += "overpass-mono-bold.otf";
-	float _size = 7;
+	_path += "telegrama_render.otf";
+	float _size = 6;
+	//_path += "overpass-mono-bold.otf";
+	//float _size = 7;
+
 	ofFile file(_path);
 	if (file.exists())
 	{
@@ -155,7 +159,8 @@ void ofxSurfingDataRemover::setup()
 	//--
 
 	// button
-	font.loadFont(OF_TTF_SANS, 20, true, true, true);
+	font.loadFont(_path, 20, true, true, true);
+	//font.loadFont(OF_TTF_SANS, 20, true, true, true);
 
 	int x, y, w, h, pad;
 	pad = 10;
@@ -672,36 +677,36 @@ void ofxSurfingDataRemover::dragEvent(ofDragInfo info) {
 
 //--------------------------------------------------------------
 void ofxSurfingDataRemover::drawInfo() {
-	int x, y, w, h, pad;
+	int x, y, w, ww, h, pad;
 	x = 20;
 	y = 25;
+	pad = 10;
 
 	string ss = "LIST";
 	ofxSurfingHelpers::drawTextBoxed(fontBox, ss, x, y);
 
 	y += 90;
-	ss = "FILES:" + ofToString((filesList.get() != "") ? "\n\n" : " NONE") + filesList.get();
-
-	//y = ofGetHeight() / 2;
-	ss += "\nFOLDERS:" + ofToString((foldersList.get() != "") ? "\n\n" : " NONE") + foldersList.get();
-	
+	ss = "FILES" + ofToString((filesList.get() != "") ? "\n\n" : " NONE") + filesList.get();
+	ss += "\n";
+	ss += "FOLDERS" + ofToString((foldersList.get() != "") ? "\n\n" : " NONE") + foldersList.get();
 	ofxSurfingHelpers::drawTextBoxed(fontBox, ss, x, y);
 
-	w = 340;
-	x = ofGetWidth() - w;
 	y = 25;
 	ss = "Drag files or folders to queue paths...";
+	ww = ofxSurfingHelpers::getWidthBBtextBoxed(fontBox, ss) + pad;
+	x = ofGetWidth() - ww;
 	ofxSurfingHelpers::drawTextBoxed(fontBox, ss, x, y);
 
-	w = 270;
-	x = ofGetWidth() - w - 20;
-	h = 70;
-	pad = 10;
-	y = ofGetHeight() - 2 * h - 4 * pad - 50;
 	ss = msg;
+	w = 270;
+	ww = ofxSurfingHelpers::getWidthBBtextBoxed(fontBox, ss) + pad;
+	x = ofGetWidth() - ww;
+	h = 70;
+	y = ofGetHeight() - 2 * h - 4 * pad - 50;
+
 	if (ss != "") {
-		//ofDrawBitmapStringHighlight(ss, x, y);
 		ofxSurfingHelpers::drawTextBoxed(fontBox, ss, x, y);
+		//ofDrawBitmapStringHighlight(ss, x, y);
 	}
 }
 
