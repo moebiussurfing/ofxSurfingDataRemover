@@ -7,7 +7,7 @@
 Queue a list of files and folders to batch remove periodically during your coding process.
 
 ## Screenshot
-![image](docs/readme_images/Capture1.PNG?raw=true "image")
+![image](docs/readme_images/Capture.PNG?raw=true "image")
 
 ## Features
 
