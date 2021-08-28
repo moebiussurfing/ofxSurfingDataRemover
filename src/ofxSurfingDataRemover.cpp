@@ -22,6 +22,9 @@ void ofxSurfingDataRemover::setup()
 {
 	//log mode
 	ofSetLogLevel("ofxSurfingDataRemover", OF_LOG_NOTICE);
+	
+	//default
+	path_Params_AppSettings = path_GLOBAL+"params_AppSettings.xml";
 
 	//--
 
@@ -78,6 +81,7 @@ void ofxSurfingDataRemover::setup()
 	params_Control.add(ENABLE_AutoSave);
 	params_Control.add(SHOW_Gui);
 	params_Control.add(Gui_Position);
+	params_Control.add(presetNamePath);
 
 	//-
 
@@ -89,6 +93,7 @@ void ofxSurfingDataRemover::setup()
 	params_AppSettings.add(filesList);
 	params_AppSettings.add(foldersList);
 
+	bSave.setSerializable(false);
 	bClear.setSerializable(false);
 	bRun.setSerializable(false);
 
@@ -168,6 +173,7 @@ void ofxSurfingDataRemover::setup()
 	w = ofGetWidth() - 2 * pad;
 	y = ofGetHeight() - h - pad;
 	x = pad;
+	float _round = 5;
 
 	butRemove.setup("RUN CLEANER!", x, y, w, h);
 	butRemove.setFont(&font);
@@ -179,6 +185,7 @@ void ofxSurfingDataRemover::setup()
 	butRemove.setBackgroundColor(0);
 	butRemove.setAutoMouse(true);
 	butRemove.setStringColor(255);
+	butRemove.setCornerRounded(_round);
 
 	y -= h + 1 * pad;
 	butClear.setup("CLEAR LIST", x, y, w, h);
@@ -191,9 +198,38 @@ void ofxSurfingDataRemover::setup()
 	butClear.setBackgroundColor(0);
 	butClear.setAutoMouse(true);
 	butClear.setStringColor(255);
+	butClear.setCornerRounded(_round);
+
+	y -= h + 1 * pad;
+	butSave.setup("SAVE LIST", x, y, w, h);
+	butSave.setFont(&font);
+	butSave.setEnabled(true);
+	butSave.setPressedColor(255);
+	butSave.setActiveColor(255);
+	butSave.setHoverColor(128);
+	butSave.setStringColor(255);
+	butSave.setBackgroundColor(0);
+	butSave.setAutoMouse(true);
+	butSave.setStringColor(255);
+	butSave.setCornerRounded(_round);
+
+	y -= h + 1 * pad;
+	butLoad.setup("LOAD LIST", x, y, w, h);
+	butLoad.setFont(&font);
+	butLoad.setEnabled(true);
+	butLoad.setPressedColor(255);
+	butLoad.setActiveColor(255);
+	butLoad.setHoverColor(128);
+	butLoad.setStringColor(255);
+	butLoad.setBackgroundColor(0);
+	butLoad.setAutoMouse(true);
+	butLoad.setStringColor(255);
+	butLoad.setCornerRounded(_round);
 
 	ofAddListener(butRemove.clickEvent, this, &ofxSurfingDataRemover::onButRemove);
 	ofAddListener(butClear.clickEvent, this, &ofxSurfingDataRemover::onButClear);
+	ofAddListener(butSave.clickEvent, this, &ofxSurfingDataRemover::onButSave);
+	ofAddListener(butLoad.clickEvent, this, &ofxSurfingDataRemover::onButLoad);
 
 	//--
 
@@ -214,7 +250,9 @@ void ofxSurfingDataRemover::startup()
 
 	// settings
 	ofxSurfingHelpers::loadGroup(params_Control, path_GLOBAL + path_Params_Control);
-	ofxSurfingHelpers::loadGroup(params_AppSettings, path_GLOBAL + path_Params_AppSettings);
+
+	ofxSurfingHelpers::loadGroup(params_AppSettings, path_Params_AppSettings);
+	//ofxSurfingHelpers::loadGroup(params_AppSettings, path_GLOBAL + path_Params_AppSettings);
 
 	MODE_Active = true;
 
@@ -260,6 +298,9 @@ void ofxSurfingDataRemover::draw(ofEventArgs & args)
 
 	butClear.draw();
 	butRemove.draw();
+	butSave.draw();
+	butLoad.draw();
+
 	//ofPushStyle();
 	//ofColor()
 	//ofFill();
@@ -277,7 +318,9 @@ void ofxSurfingDataRemover::exit()
 	Gui_Position = glm::vec2(gui_Control.getPosition());
 
 	ofxSurfingHelpers::saveGroup(params_Control, path_GLOBAL + path_Params_Control);
-	ofxSurfingHelpers::saveGroup(params_AppSettings, path_GLOBAL + path_Params_AppSettings);
+
+	ofxSurfingHelpers::saveGroup(params_AppSettings, path_Params_AppSettings);
+	//ofxSurfingHelpers::saveGroup(params_AppSettings, path_GLOBAL + path_Params_AppSettings);
 }
 
 //--------------------------------------------------------------
@@ -326,12 +369,17 @@ void ofxSurfingDataRemover::windowResized(int w, int h)
 
 	//butRemove.setPosition(x, y);
 	//butRemove.setSize(w, h);
+
 	butRemove.setup("RUN CLEANER!", x, y, ww, hh);
 
 	y -= hh + 1 * pad;
-	//butClear.setPosition(x, y);
-	//butClear.setSize(w, h);
 	butClear.setup("CLEAR LIST", x, y, ww, hh);
+
+	y -= hh + 1 * pad;
+	butSave.setup("SAVE LIST", x, y, ww, hh);
+
+	y -= hh + 1 * pad;
+	butLoad.setup("LOAD LIST", x, y, ww, hh);
 }
 
 // keys
@@ -537,6 +585,10 @@ void ofxSurfingDataRemover::Changed_params(ofAbstractParameter &e)
 	{
 		doRun();
 	}
+	else if (name == bSave.getName() && bSave.get())
+	{
+		doSave();
+	}
 
 	//else if (name == bInitialize.getName() && bInitialize.get())
 	//{
@@ -617,9 +669,11 @@ void ofxSurfingDataRemover::Changed_params_Control(ofAbstractParameter &e)
 	//else if (name == "APP MODE")
 	//{
 	//}
-	//else if (name == "DEBUG")
-	//{
-	//}
+
+	else if (name == presetNamePath.getName())
+	{
+		path_Params_AppSettings = presetNamePath;
+	}
 
 	else if (name == "GUI POSITION")
 	{

@@ -38,11 +38,11 @@ private:
 	void startup();
 
 public:
-	
+
 	void dragEvent(ofDragInfo dragInfo);
 
 public:
-	
+
 	void windowResized(int w, int h);
 
 #pragma mark - API
@@ -129,6 +129,9 @@ private:
 
 	ofxClickable butRemove;
 	ofxClickable butClear;
+	ofxClickable butSave;
+	ofxClickable butLoad;
+
 	ofTrueTypeFont font;
 
 	ofTrueTypeFont fontBox;
@@ -141,9 +144,12 @@ private:
 	vector <ofImage> draggedImages;
 
 	ofParameterGroup params_AppSettings;
+	ofParameter<string> presetNamePath{ "presetNamePath", "ofxSurfingDataRemover_PresetName.xml" };
 	ofParameter<string> filesList{ "filesList", "" };
 	ofParameter<string> foldersList{ "foldersList", "" };
 	ofParameter<bool> bClear{ "Clear", false };
+	ofParameter<bool> bSave{ "Save", false };
+	ofParameter<bool> bLoad{ "bLoad", false };
 	ofParameter<bool> bRun{ "Run", false };
 	ofParameter<bool> bInitialize{ "Initialize", false };
 
@@ -161,10 +167,31 @@ private:
 		doRun();
 	};
 
+	//--------------------------------------------------------------
+	void onButSave() {
+		doSave();
+	};
+
+	//--------------------------------------------------------------
+	void onButLoad() {
+		doLoad();
+	};
+
 public:
 
 	//--------------------------------------------------------------
+	void doRun() {
+		ofLogNotice(__FUNCTION__);
+
+		bRun = false;
+
+		doRemoveDataFiles();
+	};
+
+	//--------------------------------------------------------------
 	void doClear() {
+		ofLogNotice(__FUNCTION__);
+
 		bClear = false;
 
 		filesList = "";
@@ -173,10 +200,53 @@ public:
 		msg = "Files and folders list it's empty.";
 	};
 
-	//--------------------------------------------------------------
-	void doRun() {
-		bRun = false;
+	//--
 
-		doRemoveDataFiles();
+	//TODO:
+	//hanlde multiple presets for many apps
+	string originalFileExtension = "xml";
+
+	//--------------------------------------------------------------
+	void doSave() {
+		ofLogNotice(__FUNCTION__);
+
+		bSave = false;
+
+
+		ofFileDialogResult saveFileResult = ofSystemSaveDialog(ofGetTimestampString() + "." + ofToLower(originalFileExtension), "Save your file");
+
+		if (saveFileResult.bSuccess) {
+			presetNamePath = saveFileResult.filePath;
+			ofLogNotice(__FUNCTION__) << presetNamePath;
+
+			ofxSurfingHelpers::saveGroup(params_Control, path_GLOBAL + path_Params_Control);
+
+			ofxSurfingHelpers::saveGroup(params_AppSettings, path_Params_AppSettings);
+		}
+	};
+
+	//--------------------------------------------------------------
+	void doLoad() {
+		ofLogNotice(__FUNCTION__);
+
+		bLoad = false;
+		{
+			//Open the Open File Dialog
+			ofFileDialogResult openFileResult = ofSystemLoadDialog("Select xml preset");
+
+			//Check if the user opened a file
+			if (openFileResult.bSuccess) {
+
+				ofLogVerbose("User selected a file");
+				presetNamePath = openFileResult.filePath;
+
+				ofxSurfingHelpers::loadGroup(params_Control, path_GLOBAL + path_Params_Control);
+
+				ofxSurfingHelpers::loadGroup(params_AppSettings, path_Params_AppSettings);
+			}
+			else {
+				ofLogVerbose("User hit cancel");
+			}
+		}
 	};
 };

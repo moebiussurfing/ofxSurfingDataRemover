@@ -5,6 +5,7 @@
         "DEBUG": "1",
         "GUI_POSITION": "734, 113",
         "HELP": "0",
-        "KEYS": "1"
+        "KEYS": "1",
+        "presetNamePath": "F:\\openFrameworks\\addons\\ofxSurfingDataRemover\\OF_APP_DataRemover\\bin\\data\\ofxSurfingDataRemover_PresetName.xml"
     }
 }
