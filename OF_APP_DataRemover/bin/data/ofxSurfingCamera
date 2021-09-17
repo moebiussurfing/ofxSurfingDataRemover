@@ -1,0 +1,6 @@
+{
+    "AppSettings": {
+        "filesList": "F:\\openFrameworks\\addons\\ofxSphereCam2\\1_SpCam-Basic\\bin\\data\\ofxPresetsManager_Settings.json\nF:\\openFrameworks\\addons\\ofxSurfingCamera\\examples\\1_SurfingCam-Basic\\bin\\1_SurfingCam-Basic.exp\nF:\\openFrameworks\\addons\\ofxSurfingCamera\\examples\\1_SurfingCam-Basic\\bin\\1_SurfingCam-Basic.lib\nF:\\openFrameworks\\addons\\ofxSurfingCamera\\examples\\1_SurfingCam-Basic\\bin\\imgui.ini\nF:\\openFrameworks\\addons\\ofxSurfingCamera\\examples\\1_SurfingCam-Basic\\bin\\1_SurfingCam-Basic.exe\n",
+        "foldersList": "F:\\openFrameworks\\addons\\ofxSurfingCamera\\examples\\1_SurfingCam-Basic\\bin\\data\\ImGuiLayout\nF:\\openFrameworks\\addons\\ofxSurfingCamera\\examples\\1_SurfingCam-Basic\\bin\\data\\ofxSurfingCamera\nF:\\openFrameworks\\addons\\ofxSurfingCamera\\examples\\1_SurfingCam-Basic\\bin\\data\\ofxSurfingPresets\nF:\\openFrameworks\\addons\\ofxSurfingCamera\\examples\\1_SurfingCam-Basic\\bin\\data\\ofxWindowApp\n"
+    }
+}
