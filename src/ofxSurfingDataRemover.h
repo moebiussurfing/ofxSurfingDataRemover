@@ -9,6 +9,10 @@
 #include "ofxSurfingHelpers.h"
 #include "ofxClickable.h"
 
+//TODO:
+//adding backup mode to a set of the listed files to default states.
+//#define USE_RESTORER
+
 class ofxSurfingDataRemover
 {
 
@@ -132,6 +136,11 @@ private:
 	ofxClickable butSave;
 	ofxClickable butLoad;
 
+#ifdef USE_RESTORER
+	ofxClickable butBackup;
+#endif
+	ofxClickable butRestore;
+
 	ofTrueTypeFont font;
 
 	ofTrueTypeFont fontBox;
@@ -176,6 +185,18 @@ private:
 	void onButLoad() {
 		doLoad();
 	};
+	
+#ifdef USE_RESTORER
+	//--------------------------------------------------------------
+	void onButBackup() {
+		doBackup();
+	};
+
+	//--------------------------------------------------------------
+	void onButRestore() {
+		doRestore();
+	};
+#endif
 
 public:
 
@@ -203,7 +224,7 @@ public:
 	//--
 
 	//TODO:
-	//hanlde multiple presets for many apps
+	//handle multiple presets for many apps
 	string originalFileExtension = "xml";
 
 	//--------------------------------------------------------------
@@ -249,4 +270,12 @@ public:
 			}
 		}
 	};
+
+
+#ifdef USE_RESTORER
+	//TODO:
+	//--------------------------------------------------------------
+	void doBackup();
+	void doRestore();
+#endif
 };

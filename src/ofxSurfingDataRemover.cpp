@@ -226,10 +226,43 @@ void ofxSurfingDataRemover::setup()
 	butLoad.setStringColor(255);
 	butLoad.setCornerRounded(_round);
 
+#ifdef USE_RESTORER
+	y -= h + 1 * pad;
+	butBackup.setup("BACKUP", x, y, w, h);
+	butBackup.setFont(&font);
+	butBackup.setEnabled(true);
+	butBackup.setPressedColor(255);
+	butBackup.setActiveColor(255);
+	butBackup.setHoverColor(128);
+	butBackup.setStringColor(255);
+	butBackup.setBackgroundColor(0);
+	butBackup.setAutoMouse(true);
+	butBackup.setStringColor(255);
+	butBackup.setCornerRounded(_round);
+
+	y -= h + 1 * pad;
+	butRestore.setup("RESTORE", x, y, w, h);
+	butRestore.setFont(&font);
+	butRestore.setEnabled(true);
+	butRestore.setPressedColor(255);
+	butRestore.setActiveColor(255);
+	butRestore.setHoverColor(128);
+	butRestore.setStringColor(255);
+	butRestore.setBackgroundColor(0);
+	butRestore.setAutoMouse(true);
+	butRestore.setStringColor(255);
+	butRestore.setCornerRounded(_round);
+#endif
+
 	ofAddListener(butRemove.clickEvent, this, &ofxSurfingDataRemover::onButRemove);
 	ofAddListener(butClear.clickEvent, this, &ofxSurfingDataRemover::onButClear);
 	ofAddListener(butSave.clickEvent, this, &ofxSurfingDataRemover::onButSave);
 	ofAddListener(butLoad.clickEvent, this, &ofxSurfingDataRemover::onButLoad);
+
+#ifdef USE_RESTORER
+	ofAddListener(butBackup.clickEvent, this, &ofxSurfingDataRemover::onButBackup);
+	ofAddListener(butRestore.clickEvent, this, &ofxSurfingDataRemover::onButRestore);
+	#endif
 
 	//--
 
@@ -282,6 +315,28 @@ void ofxSurfingDataRemover::update(ofEventArgs & args) {
 //--------------------------------------------------------------
 void ofxSurfingDataRemover::draw(ofEventArgs & args)
 {
+	drawInfo();
+
+
+	butClear.draw();
+	butRemove.draw();
+	butSave.draw();
+	butLoad.draw();
+	
+#ifdef USE_RESTORER
+	butBackup.draw();
+	butRestore.draw();
+#endif
+
+	//ofPushStyle();
+	//ofColor()
+	//ofFill();
+	//ofDrawRectangle(rectButton);
+	//bool b = false;
+	//if (ofGetMousePressed()) {
+	//	b = ofxMyUtil::Event::RectButton(rectButton, ofGetMouseX(), ofGetMouseY());
+	//}
+
 	if (SHOW_Gui)
 	{
 		// edit mode
@@ -292,23 +347,6 @@ void ofxSurfingDataRemover::draw(ofEventArgs & args)
 
 		gui_Control.draw();
 	}
-
-	drawInfo();
-
-
-	butClear.draw();
-	butRemove.draw();
-	butSave.draw();
-	butLoad.draw();
-
-	//ofPushStyle();
-	//ofColor()
-	//ofFill();
-	//ofDrawRectangle(rectButton);
-	//bool b = false;
-	//if (ofGetMousePressed()) {
-	//	b = ofxMyUtil::Event::RectButton(rectButton, ofGetMouseX(), ofGetMouseY());
-	//}
 }
 
 //--------------------------------------------------------------
@@ -380,6 +418,14 @@ void ofxSurfingDataRemover::windowResized(int w, int h)
 
 	y -= hh + 1 * pad;
 	butLoad.setup("LOAD LIST", x, y, ww, hh);
+	
+#ifdef USE_RESTORER
+	y -= hh + 1 * pad;
+	butBackup.setup("BACKUP", x, y, ww, hh);
+
+	y -= hh + 1 * pad;
+	butRestore.setup("RESTORE", x, y, ww, hh);
+#endif
 }
 
 // keys
@@ -702,6 +748,9 @@ void ofxSurfingDataRemover::dragEvent(ofDragInfo info) {
 	if (info.files.size() > 0) {
 		dragPt = info.position;
 
+		//TODO:
+		//add method to add by code files/folders to list
+
 		////clear info
 		//if (filesList.get() == "") {
 		//	msg = "";
@@ -710,19 +759,24 @@ void ofxSurfingDataRemover::dragEvent(ofDragInfo info) {
 		//draggedImages.assign(info.files.size(), ofImage());
 		for (unsigned int k = 0; k < info.files.size(); k++)
 		{
-			string name = info.files[k];
+			string _path = info.files[k];
 
-			auto ss = ofSplitString(name, ".");
-			bool bIsAFolder = (ss.size() == 1);
+			////TODO: fix files with no extension aren't folders..
+			//auto ss = ofSplitString(_path, ".");
+			//bool bIsAFolder = (ss.size() == 1);
 
-			ofLogNotice(__FUNCTION__) << k << " : " << name;
+			ofDirectory dir;
+			dir.open(_path);
+			bool bIsAFolder = dir.isDirectory();
+
+			ofLogNotice(__FUNCTION__) <<"\n#"<< k << " : \n" << _path << "\n [" << (bIsAFolder ? "FOLDER":"FILE") << "]";
 
 			if (!bIsAFolder) {
-				filesList += name;
+				filesList += _path;
 				filesList += "\n";
 			}
 			else {
-				foldersList += name;
+				foldersList += _path;
 				foldersList += "\n";
 			}
 		}
@@ -802,3 +856,42 @@ void ofxSurfingDataRemover::doRemoveDataFiles() {
 	//const filesystem::path file = ofToDataPath("../imgui.ini");
 	//ofFile::removeFile(file, true);
 }
+
+
+#ifdef USE_RESTORER
+//TODO:
+//--------------------------------------------------------------
+void ofxSurfingDataRemover::doBackup() {
+	//workaround to add data bc we use the absolute flag for source path
+	//can make the destination as relative..
+	string pathBackup = "data/BACKUP/";
+
+	bool bRelativeToData = false;
+
+	ofLogNotice(__FUNCTION__) << "Copying files...";
+	auto ssfiles = ofSplitString(filesList, "\n");
+	for (int i = 0; i < ssfiles.size(); i++)
+	{
+		string filepath = ssfiles[i];
+		if (filepath == "") continue;//skip
+
+		ofLogNotice(__FUNCTION__) << "#" << i << " : " << filepath;
+		ofFile::copyFromTo(filepath, pathBackup, bRelativeToData, true);
+	}
+
+	ofLogNotice(__FUNCTION__) << "Copying folders...";
+	auto ssfolders = ofSplitString(foldersList, "\n");
+	for (int i = 0; i < ssfolders.size(); i++)
+	{
+		string folderpath = ssfolders[i];
+		if (folderpath == "") continue;//skip
+
+		ofLogNotice(__FUNCTION__) << "#" << i << " : " << folderpath;
+		ofFile::copyFromTo(folderpath, pathBackup, bRelativeToData, true);
+	}
+}
+
+//--------------------------------------------------------------
+void ofxSurfingDataRemover::doRestore() {
+}
+#endif

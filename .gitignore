@@ -557,3 +557,7 @@ example/bin/data/ofxSurfingDataRemover/params_Control.xml
 example/bin/data/ofxSurfingDataRemover/params_AppSettings.xml
 OF_APP_DataRemover/bin/data/ofxSurfingDataRemover/params_AppSettings.xml
 OF_APP_DataRemover/bin/data/ofxSurfingDataRemover/params_AppSettings.xml
+example-Restorer/bin/data/ofxSurfingDataRemover/params_AppSettings.xml
+example-Restorer/bin/data/ofxSurfingDataRemover/params_Control.xml
+example-Restorer/bin/data/userFiles/Preset.json
+example-Restorer/bin/data/myList
