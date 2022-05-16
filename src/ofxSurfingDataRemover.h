@@ -36,10 +36,14 @@ public:
 private:
 
 	void setup();
+	void setupGui();
 	void update(ofEventArgs & args);
 	void draw(ofEventArgs & args);
 	void exit();
 	void startup();
+
+	ofColor bg0 = 48;
+	ofColor bg = bg0;
 
 public:
 
@@ -127,7 +131,13 @@ private:
 
 	string path_GLOBAL = "ofxSurfingDataRemover/";//this is to folder all files to avoid mixing with other addons data
 	string path_Params_Control = "params_Control.xml";
-	string path_Params_AppSettings = "params_AppSettings.xml";
+
+	string path_Params_AppSettings = "AppPreset.ofs";
+	//string path_Params_AppSettings = "params_AppSettings.xml";
+
+	//TODO:
+	string path_AppPreset = "";
+	string name_default = "AppPreset.ofs";
 
 	//-
 
@@ -165,15 +175,17 @@ private:
 	void doRemoveDataFiles();
 
 	string msg = "";
+	string _path;
+	int x, y, w, h, h2, pad;
 
 	//--------------------------------------------------------------
 	void onButClear() {
-		doClear();
+		doClearList();
 	};
 
 	//--------------------------------------------------------------
 	void onButRemove() {
-		doRun();
+		doRunDeleter();
 	};
 
 	//--------------------------------------------------------------
@@ -199,21 +211,23 @@ private:
 #endif
 
 public:
-
+	bool bFlash = false;
 	//--------------------------------------------------------------
-	void doRun() {
+	void doRunDeleter() {
 		ofLogNotice(__FUNCTION__);
 
 		bRun = false;
+		bFlash = true;
 
 		doRemoveDataFiles();
 	};
 
 	//--------------------------------------------------------------
-	void doClear() {
+	void doClearList() {
 		ofLogNotice(__FUNCTION__);
 
 		bClear = false;
+		bFlash = true;
 
 		filesList = "";
 		foldersList = "";
@@ -225,7 +239,8 @@ public:
 
 	//TODO:
 	//handle multiple presets for many apps
-	string originalFileExtension = "xml";
+	string originalFileExtension = "ofs";
+	//string originalFileExtension = "xml";
 
 	//--------------------------------------------------------------
 	void doSave() {
@@ -240,7 +255,7 @@ public:
 			presetNamePath = saveFileResult.filePath;
 			ofLogNotice(__FUNCTION__) << presetNamePath;
 
-			ofxSurfingHelpers::saveGroup(params_Control, path_GLOBAL + path_Params_Control);
+			//ofxSurfingHelpers::saveGroup(params_Control, path_GLOBAL + path_Params_Control);
 
 			ofxSurfingHelpers::saveGroup(params_AppSettings, path_Params_AppSettings);
 		}
@@ -261,7 +276,7 @@ public:
 				ofLogVerbose("User selected a file");
 				presetNamePath = openFileResult.filePath;
 
-				ofxSurfingHelpers::loadGroup(params_Control, path_GLOBAL + path_Params_Control);
+				//ofxSurfingHelpers::loadGroup(params_Control, path_GLOBAL + path_Params_Control);
 
 				ofxSurfingHelpers::loadGroup(params_AppSettings, path_Params_AppSettings);
 			}

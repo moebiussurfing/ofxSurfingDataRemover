@@ -4,7 +4,7 @@
 
 #include "ofxSurfingDataRemover.h"
 
-//#include "ofxWindowApp.h"
+#include "ofxWindowApp.h"//->Not required
 
 class ofApp : public ofBaseApp{
 
@@ -14,5 +14,5 @@ class ofApp : public ofBaseApp{
 		void dragEvent(ofDragInfo dragInfo) override;
 		void windowResized(int w, int h);
 
-		//ofxWindowApp windowApp;
+		ofxWindowApp windowApp;
 };

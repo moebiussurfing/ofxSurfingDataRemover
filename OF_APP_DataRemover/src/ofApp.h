@@ -4,15 +4,19 @@
 
 #include "ofxSurfingDataRemover.h"
 
-//#include "ofxWindowApp.h"
+//#include "ofxWindowApp.h"//->not required
 
-class ofApp : public ofBaseApp{
+class ofApp : public ofBaseApp {
 
-	public:
+public:
 
-		ofxSurfingDataRemover dataRemover;
-		void dragEvent(ofDragInfo dragInfo) override;
-		void windowResized(int w, int h);
+	ofxSurfingDataRemover dataRemover;
 
-		//ofxWindowApp windowApp;
+	void dragEvent(ofDragInfo dragInfo);
+	//void dragEvent(ofDragInfo dragInfo) override;
+
+	void windowResized(int w, int h);
+
+//private:
+	//ofxWindowApp windowApp;
 };

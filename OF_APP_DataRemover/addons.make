@@ -1,3 +1,4 @@
 ofxGui
 ofxSurfingDataRemover
 ofxSurfingHelpers
+ofxWindowApp

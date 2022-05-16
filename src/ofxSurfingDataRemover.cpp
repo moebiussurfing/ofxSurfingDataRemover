@@ -18,13 +18,122 @@ ofxSurfingDataRemover::ofxSurfingDataRemover()
 }
 
 //--------------------------------------------------------------
+void ofxSurfingDataRemover::setupGui()
+{
+
+	// button
+	font.loadFont(_path, 20, true, true, true);
+	//font.loadFont(OF_TTF_SANS, 20, true, true, true);
+
+	pad = 10;
+	h = 70;
+	h2 = 140;
+	w = ofGetWidth() - 2 * pad;
+	y = ofGetHeight() - h - pad;
+	x = pad;
+	float _round = 5;
+
+	//aligned to the window bottom.
+
+	butRemove.setup("RUN CLEANER!", x, y, w, h2);
+	butRemove.setFont(&font);
+	butRemove.setEnabled(true);
+	butRemove.setPressedColor(255);
+	butRemove.setActiveColor(255);
+	butRemove.setHoverColor(128);
+	butRemove.setStringColor(255);
+	butRemove.setBackgroundColor(0);
+	butRemove.setAutoMouse(true);
+	butRemove.setStringColor(255);
+	butRemove.setCornerRounded(_round);
+
+	y -= h2 + 1 * pad;
+	butClear.setup("CLEAR LIST", x, y, w, h);
+	butClear.setFont(&font);
+	butClear.setEnabled(true);
+	butClear.setPressedColor(255);
+	butClear.setActiveColor(255);
+	butClear.setHoverColor(128);
+	butClear.setStringColor(255);
+	butClear.setBackgroundColor(0);
+	butClear.setAutoMouse(true);
+	butClear.setStringColor(255);
+	butClear.setCornerRounded(_round);
+
+	y -= h + 1 * pad;
+	butSave.setup("SAVE LIST", x, y, w, h);
+	butSave.setFont(&font);
+	butSave.setEnabled(true);
+	butSave.setPressedColor(255);
+	butSave.setActiveColor(255);
+	butSave.setHoverColor(128);
+	butSave.setStringColor(255);
+	butSave.setBackgroundColor(0);
+	butSave.setAutoMouse(true);
+	butSave.setStringColor(255);
+	butSave.setCornerRounded(_round);
+
+	y -= h + 1 * pad;
+	butLoad.setup("LOAD LIST", x, y, w, h);
+	butLoad.setFont(&font);
+	butLoad.setEnabled(true);
+	butLoad.setPressedColor(255);
+	butLoad.setActiveColor(255);
+	butLoad.setHoverColor(128);
+	butLoad.setStringColor(255);
+	butLoad.setBackgroundColor(0);
+	butLoad.setAutoMouse(true);
+	butLoad.setStringColor(255);
+	butLoad.setCornerRounded(_round);
+
+#ifdef USE_RESTORER
+	y -= h + 1 * pad;
+	butBackup.setup("BACKUP", x, y, w, h);
+	butBackup.setFont(&font);
+	butBackup.setEnabled(true);
+	butBackup.setPressedColor(255);
+	butBackup.setActiveColor(255);
+	butBackup.setHoverColor(128);
+	butBackup.setStringColor(255);
+	butBackup.setBackgroundColor(0);
+	butBackup.setAutoMouse(true);
+	butBackup.setStringColor(255);
+	butBackup.setCornerRounded(_round);
+
+	y -= h + 1 * pad;
+	butRestore.setup("RESTORE", x, y, w, h);
+	butRestore.setFont(&font);
+	butRestore.setEnabled(true);
+	butRestore.setPressedColor(255);
+	butRestore.setActiveColor(255);
+	butRestore.setHoverColor(128);
+	butRestore.setStringColor(255);
+	butRestore.setBackgroundColor(0);
+	butRestore.setAutoMouse(true);
+	butRestore.setStringColor(255);
+	butRestore.setCornerRounded(_round);
+#endif
+
+	ofAddListener(butRemove.clickEvent, this, &ofxSurfingDataRemover::onButRemove);
+	ofAddListener(butClear.clickEvent, this, &ofxSurfingDataRemover::onButClear);
+	ofAddListener(butSave.clickEvent, this, &ofxSurfingDataRemover::onButSave);
+	ofAddListener(butLoad.clickEvent, this, &ofxSurfingDataRemover::onButLoad);
+
+#ifdef USE_RESTORER
+	ofAddListener(butBackup.clickEvent, this, &ofxSurfingDataRemover::onButBackup);
+	ofAddListener(butRestore.clickEvent, this, &ofxSurfingDataRemover::onButRestore);
+#endif
+}
+
+//--------------------------------------------------------------
 void ofxSurfingDataRemover::setup()
 {
 	//log mode
 	ofSetLogLevel("ofxSurfingDataRemover", OF_LOG_NOTICE);
-	
+
 	//default
-	path_Params_AppSettings = path_GLOBAL+"params_AppSettings.xml";
+	path_Params_AppSettings = path_GLOBAL + name_default;
+	//path_Params_AppSettings = path_GLOBAL + "params_AppSettings.xml";
 
 	//--
 
@@ -118,8 +227,8 @@ void ofxSurfingDataRemover::setup()
 	// gui
 
 	// theme
-	
-	string _path = "assets/fonts/";
+
+	_path = "assets/fonts/";
 	_path += "telegrama_render.otf";
 	float _size = 6;
 	//_path += "overpass-mono-bold.otf";
@@ -159,110 +268,12 @@ void ofxSurfingDataRemover::setup()
 
 	//-
 
-	fontBox.loadFont(_path, 9, true, true, true);
+	fontBox.loadFont(_path, 7, true, true, true);
+	//fontBox.loadFont(_path, 9, true, true, true);
 
 	//--
 
-	// button
-	font.loadFont(_path, 20, true, true, true);
-	//font.loadFont(OF_TTF_SANS, 20, true, true, true);
-
-	int x, y, w, h, pad;
-	pad = 10;
-	h = 70;
-	w = ofGetWidth() - 2 * pad;
-	y = ofGetHeight() - h - pad;
-	x = pad;
-	float _round = 5;
-
-	butRemove.setup("RUN CLEANER!", x, y, w, h);
-	butRemove.setFont(&font);
-	butRemove.setEnabled(true);
-	butRemove.setPressedColor(255);
-	butRemove.setActiveColor(255);
-	butRemove.setHoverColor(128);
-	butRemove.setStringColor(255);
-	butRemove.setBackgroundColor(0);
-	butRemove.setAutoMouse(true);
-	butRemove.setStringColor(255);
-	butRemove.setCornerRounded(_round);
-
-	y -= h + 1 * pad;
-	butClear.setup("CLEAR LIST", x, y, w, h);
-	butClear.setFont(&font);
-	butClear.setEnabled(true);
-	butClear.setPressedColor(255);
-	butClear.setActiveColor(255);
-	butClear.setHoverColor(128);
-	butClear.setStringColor(255);
-	butClear.setBackgroundColor(0);
-	butClear.setAutoMouse(true);
-	butClear.setStringColor(255);
-	butClear.setCornerRounded(_round);
-
-	y -= h + 1 * pad;
-	butSave.setup("SAVE LIST", x, y, w, h);
-	butSave.setFont(&font);
-	butSave.setEnabled(true);
-	butSave.setPressedColor(255);
-	butSave.setActiveColor(255);
-	butSave.setHoverColor(128);
-	butSave.setStringColor(255);
-	butSave.setBackgroundColor(0);
-	butSave.setAutoMouse(true);
-	butSave.setStringColor(255);
-	butSave.setCornerRounded(_round);
-
-	y -= h + 1 * pad;
-	butLoad.setup("LOAD LIST", x, y, w, h);
-	butLoad.setFont(&font);
-	butLoad.setEnabled(true);
-	butLoad.setPressedColor(255);
-	butLoad.setActiveColor(255);
-	butLoad.setHoverColor(128);
-	butLoad.setStringColor(255);
-	butLoad.setBackgroundColor(0);
-	butLoad.setAutoMouse(true);
-	butLoad.setStringColor(255);
-	butLoad.setCornerRounded(_round);
-
-#ifdef USE_RESTORER
-	y -= h + 1 * pad;
-	butBackup.setup("BACKUP", x, y, w, h);
-	butBackup.setFont(&font);
-	butBackup.setEnabled(true);
-	butBackup.setPressedColor(255);
-	butBackup.setActiveColor(255);
-	butBackup.setHoverColor(128);
-	butBackup.setStringColor(255);
-	butBackup.setBackgroundColor(0);
-	butBackup.setAutoMouse(true);
-	butBackup.setStringColor(255);
-	butBackup.setCornerRounded(_round);
-
-	y -= h + 1 * pad;
-	butRestore.setup("RESTORE", x, y, w, h);
-	butRestore.setFont(&font);
-	butRestore.setEnabled(true);
-	butRestore.setPressedColor(255);
-	butRestore.setActiveColor(255);
-	butRestore.setHoverColor(128);
-	butRestore.setStringColor(255);
-	butRestore.setBackgroundColor(0);
-	butRestore.setAutoMouse(true);
-	butRestore.setStringColor(255);
-	butRestore.setCornerRounded(_round);
-#endif
-
-	ofAddListener(butRemove.clickEvent, this, &ofxSurfingDataRemover::onButRemove);
-	ofAddListener(butClear.clickEvent, this, &ofxSurfingDataRemover::onButClear);
-	ofAddListener(butSave.clickEvent, this, &ofxSurfingDataRemover::onButSave);
-	ofAddListener(butLoad.clickEvent, this, &ofxSurfingDataRemover::onButLoad);
-
-#ifdef USE_RESTORER
-	ofAddListener(butBackup.clickEvent, this, &ofxSurfingDataRemover::onButBackup);
-	ofAddListener(butRestore.clickEvent, this, &ofxSurfingDataRemover::onButRestore);
-	#endif
+	setupGui();
 
 	//--
 
@@ -310,11 +321,46 @@ void ofxSurfingDataRemover::update(ofEventArgs & args) {
 		timerLast_Autosave = ofGetElapsedTimeMillis();
 		ofLogVerbose(__FUNCTION__) << "AutoSaved DONE";
 	}
+
+	//--
+
+	// Flash to feedback that command has been called!
+	static bool bFlashing = false;
+	static int duration = 20;//frames
+	static int count = 0;//frames
+	static uint32_t start = 0;
+
+	if (bFlash)
+	{
+		bFlash = false;
+		start = ofGetFrameNum();
+		bFlashing = true;
+	}
+
+	if (bFlashing)
+	{
+		count = ofGetFrameNum() - start;
+
+		//if (ofGetFrameNum() % 2 == 0) bg = bg0; else bg = 255;
+
+		if (count < duration * (1.f / 4.f)) bg = 255;
+		else if (count < duration * (2.f / 4.f)) bg = bg0;
+		else if (count < duration * (3.f / 4.f)) bg = 255;
+		else if (count < duration * (4.f / 4.f)) bg = bg0;
+
+		if (count > duration)
+		{
+			bFlashing = false;
+			bg = bg0;
+		}
+	}
 }
 
 //--------------------------------------------------------------
 void ofxSurfingDataRemover::draw(ofEventArgs & args)
 {
+	ofClear(bg);
+
 	drawInfo();
 
 
@@ -322,7 +368,7 @@ void ofxSurfingDataRemover::draw(ofEventArgs & args)
 	butRemove.draw();
 	butSave.draw();
 	butLoad.draw();
-	
+
 #ifdef USE_RESTORER
 	butBackup.draw();
 	butRestore.draw();
@@ -387,44 +433,45 @@ void ofxSurfingDataRemover::setLogLevel(ofLogLevel level)
 #pragma mark - OF LISTENERS
 
 //--------------------------------------------------------------
-void ofxSurfingDataRemover::windowResized(int w, int h)
+void ofxSurfingDataRemover::windowResized(int _w, int _h)
 {
-	screenW = w;
-	screenH = h;
+	screenW = _w;
+	screenH = _h;
 
 	// user gui deopending on window dimensions
 	//gui_Control.setPosition(screenW * 0.5 - 200, screenH - 200);
 
 	//-
 
-	// button
-	int x, y, ww, hh, pad;
-	pad = 10;
-	hh = 70;
-	ww = ofGetWidth() - 2 * pad;
-	y = ofGetHeight() - hh - pad;
+	//// button
+	//int x, y, ww, hh, hh2, pad;
+	//pad = 10;
+	//hh = 70;
+	//hh2 = 140;
+	w = ofGetWidth() - 2 * pad;
+	y = ofGetHeight() - h2 - pad;
 	x = pad;
 
 	//butRemove.setPosition(x, y);
 	//butRemove.setSize(w, h);
 
-	butRemove.setup("RUN CLEANER!", x, y, ww, hh);
+	butRemove.setup("RUN CLEANER!", x, y, w, h2);
 
-	y -= hh + 1 * pad;
-	butClear.setup("CLEAR LIST", x, y, ww, hh);
+	y -= h + 1 * pad;
+	butClear.setup("CLEAR LIST", x, y, w, h);
 
-	y -= hh + 1 * pad;
-	butSave.setup("SAVE LIST", x, y, ww, hh);
+	y -= h + 1 * pad;
+	butSave.setup("SAVE LIST", x, y, w, h);
 
-	y -= hh + 1 * pad;
-	butLoad.setup("LOAD LIST", x, y, ww, hh);
-	
+	y -= h + 1 * pad;
+	butLoad.setup("LOAD LIST", x, y, w, h);
+
 #ifdef USE_RESTORER
-	y -= hh + 1 * pad;
-	butBackup.setup("BACKUP", x, y, ww, hh);
+	y -= h + 1 * pad;
+	butBackup.setup("BACKUP", x, y, w, h);
 
-	y -= hh + 1 * pad;
-	butRestore.setup("RESTORE", x, y, ww, hh);
+	y -= h + 1 * pad;
+	butRestore.setup("RESTORE", x, y, w, h);
 #endif
 }
 
@@ -456,6 +503,15 @@ void ofxSurfingDataRemover::keyPressed(ofKeyEventArgs &eventArgs)
 	if (ENABLE_keys)
 	{
 		if (0) {}
+
+		if (key == ' ')
+		{
+			doRunDeleter();
+		}
+		if (key == OF_KEY_BACKSPACE)
+		{
+			doClearList();
+		}
 
 		////custom
 		//if (key == ' ')
@@ -625,11 +681,11 @@ void ofxSurfingDataRemover::Changed_params(ofAbstractParameter &e)
 
 	else if (name == bClear.getName() && bClear.get())
 	{
-		doClear();
+		doClearList();
 	}
 	else if (name == bRun.getName() && bRun.get())
 	{
-		doRun();
+		doRunDeleter();
 	}
 	else if (name == bSave.getName() && bSave.get())
 	{
@@ -721,7 +777,7 @@ void ofxSurfingDataRemover::Changed_params_Control(ofAbstractParameter &e)
 		path_Params_AppSettings = presetNamePath;
 	}
 
-	else if (name == "GUI POSITION")
+	else if (name == Gui_Position.getName())
 	{
 		gui_Control.setPosition(Gui_Position.get().x, Gui_Position.get().y);
 	}
@@ -769,7 +825,7 @@ void ofxSurfingDataRemover::dragEvent(ofDragInfo info) {
 			dir.open(_path);
 			bool bIsAFolder = dir.isDirectory();
 
-			ofLogNotice(__FUNCTION__) <<"\n#"<< k << " : \n" << _path << "\n [" << (bIsAFolder ? "FOLDER":"FILE") << "]";
+			ofLogNotice(__FUNCTION__) << "\n#" << k << " : \n" << _path << "\n [" << (bIsAFolder ? "FOLDER" : "FILE") << "]";
 
 			if (!bIsAFolder) {
 				filesList += _path;
@@ -832,6 +888,9 @@ void ofxSurfingDataRemover::doRemoveDataFiles() {
 
 		ofLogNotice(__FUNCTION__) << "#" << i << " : " << filepath;
 		ofFile::removeFile(filepath, bRelativeToData);
+
+		//TODO
+		path_AppPreset = filepath;
 	}
 
 	ofLogNotice(__FUNCTION__) << "Removing folders...";
