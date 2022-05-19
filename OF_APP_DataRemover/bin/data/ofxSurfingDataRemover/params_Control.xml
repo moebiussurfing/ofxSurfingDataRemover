@@ -1,11 +1,11 @@
 {
     "INTERNAL": {
         "ACTIVE": "0",
-        "AUTO_SAVE": "0",
+        "AUTO_SAVE": "1",
         "DEBUG": "1",
-        "GUI_POSITION": "734, 113",
+        "GUI_POSITION": "790, 20",
         "HELP": "0",
         "KEYS": "1",
-        "presetNamePath": "C:\\Users\\moebi\\OneDrive\\Documents\\openFrameworks\\addons\\ofxSurfingDataRemover\\OF_APP_DataRemover\\bin\\data\\myList"
+        "presetNamePath": "ofxSurfingDataRemover_PresetName.xml"
     }
 }
