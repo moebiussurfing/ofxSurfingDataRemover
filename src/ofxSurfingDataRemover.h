@@ -47,6 +47,7 @@ private:
 
 public:
 
+	//void dragEvent(ofDragInfo dragInfo) override;
 	void dragEvent(ofDragInfo dragInfo);
 
 public:
