@@ -815,7 +815,7 @@ void ofxSurfingDataRemover::dragEvent(ofDragInfo info) {
 		//draggedImages.assign(info.files.size(), ofImage());
 		for (unsigned int k = 0; k < info.files.size(); k++)
 		{
-			string _path = info.files[k];
+			string _path = info.files[k].string();
 
 			////TODO: fix files with no extension aren't folders..
 			//auto ss = ofSplitString(_path, ".");

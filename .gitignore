@@ -561,3 +561,5 @@ example-Restorer/bin/data/ofxSurfingDataRemover/params_AppSettings.xml
 example-Restorer/bin/data/ofxSurfingDataRemover/params_Control.xml
 example-Restorer/bin/data/userFiles/Preset.json
 example-Restorer/bin/data/myList
+OF_APP_DataRemover/bin/data/ofxSurfingDataRemover/params_Control.xml
+OF_APP_DataRemover/config.make

@@ -1,11 +1,11 @@
 {
     "INTERNAL": {
-        "ACTIVE": "0",
+        "ACTIVE": "1",
         "AUTO_SAVE": "1",
         "DEBUG": "1",
         "GUI_POSITION": "790, 20",
         "HELP": "0",
         "KEYS": "1",
-        "presetNamePath": "ofxSurfingDataRemover_PresetName.xml"
+        "presetNamePath": "K:\\Documents\\of_12\\openFrameworks\\addons\\ofxSurfingPBR\\1_Example_Basic\\bin\\pbr1"
     }
 }
